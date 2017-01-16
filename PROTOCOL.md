@@ -98,7 +98,7 @@ Sends the next move to the server.
 Informs a client of the opponents move.
 The turn timeout starts after the acknowledgement to this command is sent (even though unacknowledged), so as to prevent clients from taking extra time for move calculation by delaying the acknowledgement.
 
-#### `EXIT [<code>]`
+#### `EXIT <code>`
 - BIDIRECTIONAL
 - ACKED
 
