@@ -105,14 +105,13 @@ The turn timeout starts after the acknowledgement to this command is sent (even 
 Informs the other party of the end of a game.  The client involved MUST implicitly transition from the `INGAME` state to the `UNREADY` state.
 
 **Client->Server**
-A client MAY send this to a server to inform of the forfeiture of a game. In such cases they MUST not sent a code.
+A client MAY send this to a server to inform of the forfeiture of a game. In such cases they MUST only send the code `FORFEITURE`.
 
 **Server->Client**
 Sent when the server has determined that the game should end. MUST contain an exit code.
 
-#### 
 ## Error Codes
-#### `0` - Unknown Error
+### `0` - Unknown Error
 A unknown error occurred while processing the command.
 ### `1` - Command Unsupported
 The command sent was not recognized.
@@ -134,6 +133,10 @@ The server is shutting down, and will soon disconnect. Clients SHOULD disconnect
 2. `LOST` - game lost by the client
 3. `DRAW` - game draw
 4. `TIMEOUT` - game lost, did not respond with a move within the required time
+5. `FORFEITURE` - game won, the opponent forfeited the game
+
+### Client Exit Codes
+1. `FORFEITURE` - exit game and forfeit
 
 ## Client States
 
