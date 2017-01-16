@@ -2,10 +2,14 @@
 
 
 ## Terminology
+
 The words MAY, SHOULD, MUST are used in this text to specify requirements, and have precise meanings as defined below.
-1. MAY - possible, but not required; each party should be prepared to handle cases in which the other party takes such a course of action.
-2. SHOULD - recommended, but not required
-3. MUST - required; failing to implement/handle such behavior is a violation of the protocol
+
+ 1. MAY - possible, but not required; each party should be prepared to handle cases in which the other party takes such a course of action.
+ 
+ 2. SHOULD - recommended, but not required
+ 
+ 3. MUST - required; failing to implement/handle such behavior is a violation of the protocol
 
 ## Architecture
 The game protocol is defined for a client-server architecture, with a central server mediating games between clients (playing the games).
