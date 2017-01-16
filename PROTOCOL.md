@@ -34,6 +34,9 @@ The game protocol is defined for a client-server architecture, with a central se
 - If a client deems its connection to the server to be invalid, it MAY discard the current connection and reconnect.
 - A turn MUST get a move response within 10 minutes. Note that due to network delay, clients SHOULD respond a few seconds earlier.
 
+### Board and Game
+- The board MUST be a 4x4x4 board.
+- Coordinates MUST start from 0.
 
 ## Command Format
 All commands in the protocol are of the format `COMMAND [<arg1>, <arg2>, ...]`. Note that `[]` are used to specify an optional argument, and `<>` is used to specify an argument placeholder.
