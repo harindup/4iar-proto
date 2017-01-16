@@ -152,7 +152,7 @@ This protocol extension adds support for the challenge functionality.
 
 ## Commands
 
-#### `LIST [<name1> <state1> <name2> <state2>...]`
+#### `LIST [<name1>:<state1> <name2>:<state2>...]`
 - BIDIRECTIONAL
 - ACKED (specific response required; NOT `OK`)
 
@@ -171,7 +171,10 @@ Sent to challenge another client. Implies a `DECLINE` of all received challenges
 
 Sending to a client with `READY` state will cause the immediate start of a game with the client. i.e. the server MUST send a `START` command to both parties (the recipient will NOT be informed of a challenge), and transition to the `INGAME` state.
 
-The receiver transitions to the `CHALLENGERECD` state if the challenge is legal and the recipient is `UNREADY`, and the sender transitions to the `CHALLENGESENT` state. 
+The receiver transitions to the `CHALLENGERECD` state if the challenge is legal and the recipient is `UNREADY`, and the sender transitions to the `CHALLENGESENT` state.
+
+**Server->Client**
+Sent by a server to a client to inform of an incoming challenge. The client MUST transition to `CHALLENGERECD` state. `ACCEPT` and `DECLINE` becomes possible.
 
 #### `ACCEPT <name>`
 - UNIDIRECTIONAL, Client->Server
