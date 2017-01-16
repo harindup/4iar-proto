@@ -94,6 +94,8 @@ The turn timeout starts after the acknowledgement to this command is sent (even 
 - BIDIRECTIONAL
 - ACKED
 
+**N.B.**: only x, y coordinates are sent, given that there is only one valid z value, considering gravity.
+
 **Client->Server**
 Sends the next move to the server.
 
