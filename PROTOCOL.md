@@ -82,6 +82,12 @@ Informs the other party of the intent do perform a (and impending) disconnection
 
 Sent by a client to inform the server of its readiness to be assigned a game. The client should be prepared to receive any game the server sends back after the acknowledgement of this command. Client MUST implicitly transition from the `UNREADY` state to the `READY` state.
 
+#### `UNREADY`
+- UNIDIRECTIONAL, Client->Server
+- ACKED
+
+Sent by a client to inform the server of its reluctance to be assigned a game. The server MUST NOT send any games to the client. Client MUST implicitly transition from the `READY` state to the `UNREADY` state. 
+
 #### `START <name1> <name2>`
 - UNIDIRECTIONAL, Server->Client
 - ACKED
