@@ -2,10 +2,14 @@
 
 
 ## Terminology
+
 The words MAY, SHOULD, MUST are used in this text to specify requirements, and have precise meanings as defined below.
-1. MAY - possible, but not required; each party should be prepared to handle cases in which the other party takes such a course of action.
-2. SHOULD - recommended, but not required
-3. MUST - required; failing to implement/handle such behavior is a violation of the protocol
+
+ 1. MAY - possible, but not required; each party should be prepared to handle cases in which the other party takes such a course of action.
+ 
+ 2. SHOULD - recommended, but not required
+ 
+ 3. MUST - required; failing to implement/handle such behavior is a violation of the protocol
 
 ## Architecture
 The game protocol is defined for a client-server architecture, with a central server mediating games between clients (playing the games).
@@ -30,6 +34,9 @@ The game protocol is defined for a client-server architecture, with a central se
 - If a client deems its connection to the server to be invalid, it MAY discard the current connection and reconnect.
 - A turn MUST get a move response within 10 minutes. Note that due to network delay, clients SHOULD respond a few seconds earlier.
 
+### Board and Game
+- The board MUST be a 4x4x4 board.
+- Coordinates MUST start from 0.
 
 ## Command Format
 All commands in the protocol are of the format `COMMAND [<arg1>, <arg2>, ...]`. Note that `[]` are used to specify an optional argument, and `<>` is used to specify an argument placeholder.
@@ -75,6 +82,12 @@ Informs the other party of the intent do perform a (and impending) disconnection
 
 Sent by a client to inform the server of its readiness to be assigned a game. The client should be prepared to receive any game the server sends back after the acknowledgement of this command. Client MUST implicitly transition from the `UNREADY` state to the `READY` state.
 
+#### `UNREADY`
+- UNIDIRECTIONAL, Client->Server
+- ACKED
+
+Sent by a client to inform the server of its reluctance to be assigned a game. The server MUST NOT send any games to the client. Client MUST implicitly transition from the `READY` state to the `UNREADY` state. 
+
 #### `START <name1> <name2>`
 - UNIDIRECTIONAL, Server->Client
 - ACKED
@@ -87,6 +100,8 @@ The turn timeout starts after the acknowledgement to this command is sent (even 
 - BIDIRECTIONAL
 - ACKED
 
+**N.B.**: only x, y coordinates are sent, given that there is only one valid z value, considering gravity.
+
 **Client->Server**
 Sends the next move to the server.
 
@@ -94,21 +109,20 @@ Sends the next move to the server.
 Informs a client of the opponents move.
 The turn timeout starts after the acknowledgement to this command is sent (even though unacknowledged), so as to prevent clients from taking extra time for move calculation by delaying the acknowledgement.
 
-#### `EXIT [<code>]`
+#### `EXIT <code>`
 - BIDIRECTIONAL
 - ACKED
 
 Informs the other party of the end of a game.  The client involved MUST implicitly transition from the `INGAME` state to the `UNREADY` state.
 
 **Client->Server**
-A client MAY send this to a server to inform of the forfeiture of a game. In such cases they MUST not sent a code.
+A client MAY send this to a server to inform of the forfeiture of a game. In such cases they MUST only send the code `FORFEITURE`.
 
 **Server->Client**
 Sent when the server has determined that the game should end. MUST contain an exit code.
 
-#### 
 ## Error Codes
-#### `0` - Unknown Error
+### `0` - Unknown Error
 A unknown error occurred while processing the command.
 ### `1` - Command Unsupported
 The command sent was not recognized.
@@ -130,6 +144,10 @@ The server is shutting down, and will soon disconnect. Clients SHOULD disconnect
 2. `LOST` - game lost by the client
 3. `DRAW` - game draw
 4. `TIMEOUT` - game lost, did not respond with a move within the required time
+5. `FORFEITURE` - game won, the opponent forfeited the game
+
+### Client Exit Codes
+1. `FORFEITURE` - exit game and forfeit
 
 ## Client States
 
@@ -148,7 +166,7 @@ This protocol extension adds support for the challenge functionality.
 
 ## Commands
 
-#### `LIST [<name1> <state1> <name2> <state2>...]`
+#### `LIST [<name1>:<state1> <name2>:<state2>...]`
 - BIDIRECTIONAL
 - ACKED (specific response required; NOT `OK`)
 
@@ -167,7 +185,10 @@ Sent to challenge another client. Implies a `DECLINE` of all received challenges
 
 Sending to a client with `READY` state will cause the immediate start of a game with the client. i.e. the server MUST send a `START` command to both parties (the recipient will NOT be informed of a challenge), and transition to the `INGAME` state.
 
-The receiver transitions to the `CHALLENGERECD` state if the challenge is legal and the recipient is `UNREADY`, and the sender transitions to the `CHALLENGESENT` state. 
+The receiver transitions to the `CHALLENGERECD` state if the challenge is legal and the recipient is `UNREADY`, and the sender transitions to the `CHALLENGESENT` state.
+
+**Server->Client**
+Sent by a server to a client to inform of an incoming challenge. The client MUST transition to `CHALLENGERECD` state. `ACCEPT` and `DECLINE` becomes possible.
 
 #### `ACCEPT <name>`
 - UNIDIRECTIONAL, Client->Server
