@@ -54,11 +54,11 @@ Commands that pertain to communication about matters that are not explicitly abo
 
 Sent to acknowledge the successful processing of a command. The acknowledged command MAY be sent for debugging purposes. If sent, the entire previous command (including arguments) MUST be sent.
 
-#### `ERROR <code>`
+#### `ERROR <code> [<command>]`
 - BIDIRECTIONAL
 - UNACKED
 
-Sent to acknowledge a failure in the processing of a command. `code` is an numerical code specifying the nature of the failure. 
+Sent to acknowledge a failure in the processing of a command. `code` is an numerical code specifying the nature of the failure. The acknowledged command MAY be sent for debugging purposes. If sent, the entire previous command (including arguments) MUST be sent.
 
 #### `CONNECT <name>`
 - UNIDIRECTIONAL, Client->Server
