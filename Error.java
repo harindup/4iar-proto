@@ -6,7 +6,7 @@ package nl.intcs.ss.p006.fourinarow.protocol;
  * @author Harindu Perera
  * @version 1.0
  */
-public enum Errors {
+public enum Error {
 
     UNKNOWN_COMMAND("0"),
     COMMAND_UNSUPPORTED("1"),
@@ -22,7 +22,7 @@ public enum Errors {
     /**
      * @param number the error number
      */
-    Errors(final String number) {
+    Error(final String number) {
         this.number = number;
     }
 

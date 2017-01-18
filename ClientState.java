@@ -5,6 +5,6 @@ package nl.intcs.ss.p006.fourinarow.protocol;
  * @author Harindu Perera
  * @version 1.0
  */
-public enum ClientStates {
+public enum ClientState {
     READY, UNREADY, INGAME, CHALLENGESENT, CHALLENGERECD
 }

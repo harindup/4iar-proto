@@ -6,7 +6,7 @@ package nl.intcs.ss.p006.fourinarow.protocol;
  * @author Harindu Perera
  * @version 1.0
  */
-public enum ExitCodes {
+public enum ExitCode {
 
     // Server exit codes
     WON("WON"),
@@ -22,7 +22,7 @@ public enum ExitCodes {
     /**
      * @param text the exit code text
      */
-    ExitCodes(final String text) {
+    ExitCode(final String text) {
         this.text = text;
     }
 

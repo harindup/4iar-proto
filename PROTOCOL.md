@@ -24,7 +24,7 @@ The game protocol is defined for a client-server architecture, with a central se
 
 ### Communication
 - Communication is via text commands with optional arguments, sent over a connection via TCP. 
--  Each command should end with a new line chatacter, and MUST not contain a such characters.
+- Each command should end with a new line chatacter, and MUST not contain such characters.
 - A client MUST establish a maximum of only one connection to a server.
 - A server should discard any previous connection with a client if client attempts to establish a connection while one already exists.
 - Multiple clients MAY connect to a server, and a server MUST support this.

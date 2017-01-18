@@ -6,7 +6,7 @@ package nl.intcs.ss.p006.fourinarow.protocol;
  * @author Harindu Perera
  * @version 1.0
  */
-public enum Commands {
+public enum Command {
 
     // Control commands
     OK("OK"),
@@ -32,7 +32,7 @@ public enum Commands {
     /**
      * @param text the command text
      */
-    Commands(final String text) {
+    Command(final String text) {
         this.text = text;
     }
 
