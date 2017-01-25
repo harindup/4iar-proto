@@ -50,6 +50,51 @@ Commands that pertain to communication about matters that are not explicitly abo
 
 #### `OK [<command>]`
 - BIDIRECTIONAL
+
+# Protocol Extension – Chat
+
+Protocol extension to support chat functionality
+
+## Commands
+
+#### `AVAILABLE`
+- UNIDIRECTIONAL, Client->Server
+- ACKED
+
+Sent by a Client to announce to a Server about it's availability to chat.
+A Server MUST NOT broadcast chat messages to a Client which has not sent this. A Client MUST only send this command when in the UNREADY state (i.e.: immediately after a successful `CONNECT`), to announce the fact that it supports this functionality.
+
+#### `SAY [<name>] <message>`
+- BIDIRECTIONAL
+- UNACKED
+
+**Client->Server**
+The `<name>` argument MUST NOT be sent. Sent by a Client to communicate a message to the Server. The server MUST broadcast the message to all other Clients (with the same command) who have registered with the `AVAILABLE` command.
+
+**Server->Client**
+The `<name>` argument MUST be sent. Sent by a Server to communicate a message to the Client. The server MUST ONLY broadcast send this command to Clients who have explicitly registered with the `AVAILABLE` command.
+
+
+# Protocol Extension – Leaderboard
+
+Contains commands for the leaderboard extension
+
+## Scoring Scheme
+
+For each win, a Client gains `1` point. None otherwise.
+
+## Commands
+
+#### `LEADERBOARD [<name1>:<score1>] [<name2>:<score2>] ...`
+- BIDIRECTIONAL
+- ACKED (specific response, NOT `OK`)
+
+**Client->Server**
+Sent by a Client to request a leaderboard from a Server. Arguments MUST NOT be sent.
+
+**Server->Client**
+Sent by a Server in response to the same command from a Client. Arguments MAY be sent.
+
 - UNACKED
 
 Sent to acknowledge the successful processing of a command. The acknowledged command MAY be sent for debugging purposes. If sent, the entire previous command (including arguments) MUST be sent.
