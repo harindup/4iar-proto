@@ -54,11 +54,11 @@ Commands that pertain to communication about matters that are not explicitly abo
 
 Sent to acknowledge the successful processing of a command. The acknowledged command MAY be sent for debugging purposes. If sent, the entire previous command (including arguments) MUST be sent.
 
-#### `ERROR <code>`
+#### `ERROR <code> [<command>]`
 - BIDIRECTIONAL
 - UNACKED
 
-Sent to acknowledge a failure in the processing of a command. `code` is an numerical code specifying the nature of the failure. 
+Sent to acknowledge a failure in the processing of a command. `code` is an numerical code specifying the nature of the failure. The acknowledged command MAY be sent for debugging purposes. If sent, the entire previous command (including arguments) MUST be sent.
 
 #### `CONNECT <name>`
 - UNIDIRECTIONAL, Client->Server
@@ -160,6 +160,9 @@ A client is ready to receive a game from the server. A client reaches this state
 ### `INGAME`
 A client is in a game. A server MUST NOT send a client in this state any games.
 
+### `DISCONNECTED`
+A client has not yet declared a name and formally conected (although a TCP connection MAY be established), and MUST NOT send any commands except for `CONNECT`. MUST NOT receive any commands.
+
 # Protocol Extension - Challenge
 
 This protocol extension adds support for the challenge functionality.
@@ -218,3 +221,47 @@ Should be visible to other clients as if being in the `UNREADY` state.
 This state is always in combination with a list of names of the opponents. Each name is removed after 30 seconds of unresponsiveness. The client MUST automatically transition to the `UNREADY` state after all challenges have expired.
 
 This state MAY transition to the `READY` state if a client sends a `READY` command,  which SHOULD be treated by a server as an implicit `ACCEPT` of the most recent challenge.
+
+# Protocol Extension – Chat
+
+Protocol extension to support chat functionality
+
+## Commands
+
+#### `AVAILABLE`
+- UNIDIRECTIONAL, Client->Server
+- ACKED
+
+Sent by a client to announce to a server about it's availability to chat.
+A server MUST NOT broadcast chat messages to a client which has not sent this. A client MUST only send this command when in the UNREADY state (i.e.: immediately after a successful `CONNECT`), to announce the fact that it supports this functionality.
+
+#### `SAY [<name>] <message>`
+- BIDIRECTIONAL
+- UNACKED
+
+**Client->Server**
+The `<name>` argument MUST NOT be sent. Sent by a client to communicate a message to the Server. The server MUST broadcast the message to all other clients (with the same command) who have registered with the `AVAILABLE` command.
+
+**Server->Client**
+The `<name>` argument MUST be sent. Sent by a server to communicate a message to the client. The server MUST ONLY broadcast send this command to clients who have explicitly registered with the `AVAILABLE` command.
+
+
+# Protocol Extension – Leaderboard
+
+Contains commands for the leaderboard extension
+
+## Scoring Scheme
+
+For each win, a client gains `1` point. None otherwise.
+
+## Commands
+
+#### `LEADERBOARD [<name1>:<score1>] [<name2>:<score2>] ...`
+- BIDIRECTIONAL
+- ACKED (specific response, NOT `OK`)
+
+**Client->Server**
+Sent by a client to request a leaderboard from a server. Arguments MUST NOT be sent.
+
+**Server->Client**
+Sent by a server in response to the same command from a client. Arguments MAY be sent.
