@@ -160,6 +160,9 @@ A client is ready to receive a game from the server. A client reaches this state
 ### `INGAME`
 A client is in a game. A server MUST NOT send a client in this state any games.
 
+### `DISCONNECTED`
+A client has not yet declared a name and formally conected (although a TCP connection MAY be established), and MUST NOT send any commands except for `CONNECT`. MUST NOT receive any commands.
+
 # Protocol Extension - Challenge
 
 This protocol extension adds support for the challenge functionality.
@@ -229,18 +232,18 @@ Protocol extension to support chat functionality
 - UNIDIRECTIONAL, Client->Server
 - ACKED
 
-Sent by a Client to announce to a Server about it's availability to chat.
-A Server MUST NOT broadcast chat messages to a Client which has not sent this. A Client MUST only send this command when in the UNREADY state (i.e.: immediately after a successful `CONNECT`), to announce the fact that it supports this functionality.
+Sent by a client to announce to a server about it's availability to chat.
+A server MUST NOT broadcast chat messages to a client which has not sent this. A client MUST only send this command when in the UNREADY state (i.e.: immediately after a successful `CONNECT`), to announce the fact that it supports this functionality.
 
 #### `SAY [<name>] <message>`
 - BIDIRECTIONAL
 - UNACKED
 
 **Client->Server**
-The `<name>` argument MUST NOT be sent. Sent by a Client to communicate a message to the Server. The server MUST broadcast the message to all other Clients (with the same command) who have registered with the `AVAILABLE` command.
+The `<name>` argument MUST NOT be sent. Sent by a client to communicate a message to the Server. The server MUST broadcast the message to all other clients (with the same command) who have registered with the `AVAILABLE` command.
 
 **Server->Client**
-The `<name>` argument MUST be sent. Sent by a Server to communicate a message to the Client. The server MUST ONLY broadcast send this command to Clients who have explicitly registered with the `AVAILABLE` command.
+The `<name>` argument MUST be sent. Sent by a server to communicate a message to the client. The server MUST ONLY broadcast send this command to clients who have explicitly registered with the `AVAILABLE` command.
 
 
 # Protocol Extension – Leaderboard
@@ -249,7 +252,7 @@ Contains commands for the leaderboard extension
 
 ## Scoring Scheme
 
-For each win, a Client gains `1` point. None otherwise.
+For each win, a client gains `1` point. None otherwise.
 
 ## Commands
 
@@ -258,7 +261,7 @@ For each win, a Client gains `1` point. None otherwise.
 - ACKED (specific response, NOT `OK`)
 
 **Client->Server**
-Sent by a Client to request a leaderboard from a Server. Arguments MUST NOT be sent.
+Sent by a client to request a leaderboard from a server. Arguments MUST NOT be sent.
 
 **Server->Client**
-Sent by a Server in response to the same command from a Client. Arguments MAY be sent.
+Sent by a server in response to the same command from a client. Arguments MAY be sent.
