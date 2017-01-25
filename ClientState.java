@@ -6,5 +6,5 @@ package nl.intcs.ss.p006.fourinarow.protocol;
  * @version 1.0
  */
 public enum ClientState {
-    READY, UNREADY, INGAME, CHALLENGESENT, CHALLENGERECD
+    READY, UNREADY, INGAME, CHALLENGESENT, CHALLENGERECD, DISCONNECTED
 }
