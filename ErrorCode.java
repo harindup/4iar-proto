@@ -8,7 +8,7 @@ package nl.intcs.ss.p006.fourinarow.protocol;
  */
 public enum ErrorCode {
 
-    UNKNOWN_COMMAND(Constants.ERR_UNKNOWN_COMMAND, CommandDirection.BIDIRECTIONAL),
+    UNKNOWN_ERROR(Constants.ERR_UNKNOWN_ERROR, CommandDirection.BIDIRECTIONAL),
     COMMAND_UNSUPPORTED(Constants.ERR_COMMAND_UNSUPPORTED, CommandDirection.BIDIRECTIONAL),
     COMMAND_INVALID(Constants.ERR_COMMAND_INVALID, CommandDirection.BIDIRECTIONAL),
     NAME_UNAVAILABLE(Constants.ERR_NAME_UNAVAILABLE, CommandDirection.SERVER_TO_CLIENT),

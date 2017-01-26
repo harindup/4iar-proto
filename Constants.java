@@ -58,7 +58,7 @@ public class Constants {
     
     
     // Error codes
-    public static final String ERR_UNKNOWN_COMMAND = "0"; 
+    public static final String ERR_UNKNOWN_ERROR = "0";
     public static final String ERR_COMMAND_UNSUPPORTED = "1"; 
     public static final String ERR_COMMAND_INVALID = "2"; 
     public static final String ERR_NAME_UNAVAILABLE = "3"; 
