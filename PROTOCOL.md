@@ -1,4 +1,4 @@
-# 4-In-A-Row 3D Protocol (Lab Group 06) – DRAFT
+# 4-In-A-Row 3D Protocol (Lab Group 06) – FINAL
 
 
 ## Terminology
